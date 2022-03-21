@@ -25,10 +25,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        sniffer_back.c
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+        sniffer_back.h
 
 FORMS += \
         mainwindow.ui
+
+
+
+INCLUDEPATH += E:/UCAS/secure/sniffer/npcap-sdk-1.12/Include
+LIBS += -LE:\UCAS\secure\sniffer\npcap-sdk-1.12\Lib\ -lwpcap
