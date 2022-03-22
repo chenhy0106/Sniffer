@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        sniffer_back.c
+        sniffer_back.c \
+        proto.c
 
 HEADERS += \
         mainwindow.h \
-        sniffer_back.h
+        sniffer_back.h \
+        proto.h
 
 FORMS += \
         mainwindow.ui

@@ -82,6 +82,7 @@ private:
 
 
     void initDevList();
+    QString getAddrStr(char * addr, int len, int base);
 
 };
 
