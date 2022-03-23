@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1306</width>
-    <height>711</height>
+    <height>809</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,33 +24,75 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="updateDevButton">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>30</y>
-      <width>51</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>刷新</string>
-    </property>
-   </widget>
    <widget class="QComboBox" name="protoSelector">
     <property name="geometry">
      <rect>
-      <x>860</x>
+      <x>800</x>
       <y>30</y>
       <width>141</width>
       <height>31</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>all</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>HTTP</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>HTTPS</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DNS</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>SMTP</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>TCP</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>UDP</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ICMP</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>IPv4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>IPv6</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ARP</string>
+     </property>
+    </item>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>80</y>
       <width>71</width>
       <height>16</height>
@@ -63,7 +105,7 @@
    <widget class="QLabel" name="stateDisplay">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>90</x>
       <y>80</y>
       <width>821</width>
       <height>16</height>
@@ -76,14 +118,14 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>780</x>
+      <x>720</x>
       <y>30</y>
       <width>71</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>协议过滤：</string>
+     <string>协议选择：</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -115,7 +157,7 @@
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>30</y>
       <width>93</width>
       <height>31</height>
@@ -128,7 +170,7 @@
    <widget class="QPushButton" name="endButton">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>110</x>
       <y>30</y>
       <width>93</width>
       <height>31</height>
@@ -142,9 +184,29 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>130</y>
+      <y>100</y>
       <width>1281</width>
-      <height>341</height>
+      <height>231</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="protocolAnalyse">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>340</y>
+      <width>1281</width>
+      <height>221</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="rawData">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>570</y>
+      <width>1281</width>
+      <height>221</height>
      </rect>
     </property>
    </widget>

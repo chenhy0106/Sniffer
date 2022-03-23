@@ -1,8 +1,10 @@
 #include "sniffer_back.h"
 #include "string.h"
+#include <stdio.h>
 
 pcap_t * adhandle;
-char *   cur_dev_name;
+pcap_if_t * alldevs;
+struct dev * cur_dev;
 
 BOOL LoadNpcapDlls()
 {
@@ -30,7 +32,7 @@ BOOL getDevList(struct dev ** dev_list, int * dev_count) {
 
 	// find all dev
 	char errbuf[PCAP_ERRBUF_SIZE];
-	pcap_if_t * alldevs;
+	
 	if(pcap_findalldevs(&alldevs, errbuf) == -1) {
         return 0;
 	}
@@ -48,9 +50,10 @@ BOOL getDevList(struct dev ** dev_list, int * dev_count) {
 		strcpy((*dev_list)[i].name, dev->name);
 		(*dev_list)[i].description = (char *)malloc(strlen(dev->description));
 		strcpy((*dev_list)[i].description, dev->description);
+		(*dev_list)[i].dev = dev;
 	}
 
-    pcap_freealldevs(alldevs);
+    
     return 1;
 }
 
@@ -65,34 +68,103 @@ void freeDevList(struct dev * dev_list, int dev_count) {
 	}
 
 	free(dev_list);
+	pcap_freealldevs(alldevs);
 }
 
 
 int getPackets(struct packet * buff, 
 				unsigned offset, 
-				char * dev_name, 
+				struct dev * dev, 
 				int max_packet_count, 
 				int timeout, 
-				filter_t filter,
+				ProtoSel filter,
 				int promiscuous) {
 	char errbuf[PCAP_ERRBUF_SIZE];
 
-	if (dev_name != cur_dev_name) {
+	if (dev != cur_dev) {
 		if (adhandle) { // close last adhandle
 			pcap_close(adhandle);
 		}
 		
-		if ((adhandle = pcap_open_live(dev_name, max_packet_count, promiscuous, 1000, errbuf)) == NULL) {
+        if ((adhandle = pcap_open_live(dev->name, 65536, promiscuous, 1000, errbuf)) == NULL) {
 			return -1;
 		}
 	}
 
-	cur_dev_name = dev_name;
+	if(pcap_datalink(adhandle) != DLT_EN10MB)
+	{
+		return -1;
+	}
+
+	cur_dev = dev;
+
+    u_int netmask = 0xffffffff;
+    struct bpf_program fcode;
+	//compile the filter
+	char filter_str[11] = {0}; 
+	if (filter != SEL_ALL) {
+		switch (filter)
+		{
+			case SEL_TCP: {
+				strcpy(filter_str, "tcp");
+				break;
+			}
+			case SEL_UDP: {
+				strcpy(filter_str, "udp");
+				break;			
+			}
+			case SEL_ICMP: {
+				strcpy(filter_str, "icmp");
+				break;			
+			}
+			case SEL_ARP: {
+				strcpy(filter_str, "arp");
+				break;			
+			}
+			case SEL_IPV4: {
+				strcpy(filter_str, "ip");
+				break;			
+			}
+			case SEL_IPV6: {
+				strcpy(filter_str, "ip6");
+				break;	
+			}	
+			case SEL_DNS: {
+				strcpy(filter_str, "port 53");
+				break;	
+			}	
+			case SEL_HTTP: {
+				strcpy(filter_str, "port 80");
+				break;	
+			}	
+			case SEL_HTTPS: {
+				strcpy(filter_str, "port 443");
+				break;	
+			}	
+			case SEL_SMTP: {
+				strcpy(filter_str, "port 25");
+				break;	
+			}	
+		}
+        if (pcap_compile(adhandle, &fcode, filter_str, 1, netmask) < 0)
+		{
+			printf("pcap compile\n");
+			return -1;
+		}
+		
+		//set the filter
+		if (pcap_setfilter(adhandle, &fcode) < 0)
+		{
+			printf("set compile\n");
+			return -1;
+		}
+	}
+	
 
 	int packet_count = 0;
     int res;
-	while(timeout && ((res = pcap_next_ex(adhandle, &buff[packet_count+offset].header, &buff[packet_count+offset].data )) >= 0)) {
-        if (packet_count > max_packet_count) {
+    while(timeout && ((res = pcap_next_ex(adhandle, &(buff[packet_count+offset].header), &(buff[packet_count+offset].data))) >= 0)) {
+        if (packet_count >= max_packet_count) {
 			break;
 		}
 		

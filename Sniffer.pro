@@ -40,4 +40,4 @@ FORMS += \
 
 
 INCLUDEPATH += E:/UCAS/secure/sniffer/npcap-sdk-1.12/Include
-LIBS += -LE:\UCAS\secure\sniffer\npcap-sdk-1.12\Lib\ -lwpcap
+LIBS += -LE:\UCAS\secure\sniffer\npcap-sdk-1.12\Lib -lwpcap

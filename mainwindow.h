@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QThread>
-#include <vector>
+
+#include "sniffer_back.h"
+
 
 #define MAX_BUFF_NO 65536
 #define PACHKET_PER_BUFF 16
@@ -22,11 +24,12 @@ class Thread_GetPacket : public QThread {
     Q_OBJECT
 private:
     //线程退出的标识量
-    volatile state_set  state = STOP;
-    struct packet *     buff = NULL;
-    unsigned            buff_offset = 0;
-    unsigned            buff_size = MAX_BUFF_NO;
-    char *              target_name = NULL;
+    volatile std::atomic<state_set> state;
+    struct packet *                 buff = NULL;
+    std::atomic<unsigned>           buff_offset;
+    unsigned                        buff_size = MAX_BUFF_NO;
+    struct dev *                    target_dev = NULL;
+    ProtoSel                        proto_sel;
 
 protected:
     void run();
@@ -35,9 +38,9 @@ public:
     ~Thread_GetPacket();
 
     struct packet * getBuffPtr() {return buff;}
-    unsigned * getOffsetPtr() {return &buff_offset;}
+    std::atomic<unsigned> * getOffsetPtr() {return &buff_offset;}
 public slots:
-    void controlGetPacket(bool control, char * new_dev_name);
+    void controlGetPacket(bool control, struct dev * new_dev, ProtoSel protosel);
 
 signals:
     void SIG_fillTable();
@@ -52,7 +55,7 @@ public:
     ~MainWindow();
 
     void setBuffPtr(struct packet * buff_ptr) {buff = buff_ptr;}
-    void setOffsetPtr(unsigned * offset_ptr) {offset = offset_ptr;}
+    void setOffsetPtr(std::atomic<unsigned>* offset_ptr) {offset = offset_ptr;}
 
 public slots:
     void on_startButton_clicked();
@@ -62,7 +65,7 @@ public slots:
 
 
 signals:
-    void SIG_controlGetPacket(bool control, char * new_dev_name);
+    void SIG_controlGetPacket(bool control, struct dev * new_dev, ProtoSel protosel);
 
 private:
     Ui::MainWindow  *   ui;
@@ -70,15 +73,18 @@ private:
     Thread_GetPacket * get_packet_thread;
 
     state_set           current_state = STOP;
+    ProtoSel            current_proto = SEL_ALL;
 
     struct dev      *   devList = NULL;
     int                 dev_count = 0;
     int                 current_dev = 0;
     int                 last_dev = -1;
+    ProtoSel            current_sel = SEL_ALL;
+    ProtoSel            last_sel = SEL_ALL;
 
     unsigned            fill_offset = 0;
     struct packet   *   buff;
-    unsigned        *   offset;
+    std::atomic<unsigned>*   offset;
 
 
     void initDevList();

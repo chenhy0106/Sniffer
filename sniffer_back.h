@@ -10,9 +10,17 @@ extern "C" {
 #include <time.h>
 #include <tchar.h>
 
+typedef enum ps {SEL_ALL,  \
+                SEL_HTTP, SEL_HTTPS, SEL_DNS, SEL_SMTP, \
+                SEL_TCP, SEL_UDP, \
+                SEL_ICMP, SEL_IPV4, SEL_IPV6, \
+                SEL_ARP \
+                } ProtoSel;
+
 struct dev {
     char * name;
     char * description;
+    pcap_if_t * dev;
 };
 
 BOOL LoadNpcapDlls();
@@ -26,8 +34,8 @@ struct packet {
 
 typedef int filter_t;
 
-int getPackets(struct packet * buff, unsigned offset, char * dev_name, int max_packet_count, int timeout, 
-				filter_t filter, int promiscuous);
+int getPackets(struct packet * buff, unsigned offset, struct dev * dev, int max_packet_count, int timeout, 
+				ProtoSel filter, int promiscuous);
 
 
 #ifdef __cplusplus

@@ -14,9 +14,15 @@ extern "C" {
 #define CODE_IP_UDP 17
 #define CODE_IP_ICMP 1
 
+#define CODE_APP_HTTP 80
+#define CODE_APP_HTTPS 443
+#define CODE_APP_SMTP 25
+#define CODE_APP_DNS 53 
+
 typedef enum eth_type {ETH_IP4, ETH_IP6, ETH_ARP, ETH_ARP_REPLAY, OTHER} eth_type;
 typedef enum ip_type {IP_IP4, IP_IP6, IP_ICMP, IP_NONE} ip_type;
 typedef enum trans_type {TRANS_TCP, TRANS_UDP, TRANS_NONE} trans_type;
+typedef enum app_type {APP_HTTP, APP_HTTPS, APP_SMTP, APP_DNS, APP_NONE} app_type;
 
 #include <pcap.h>
 
@@ -27,18 +33,18 @@ struct eth_header {
 };
 
 struct ip4_header {
-    int version:4;
-    int header_len:4;
-    u_char tos:8;
-    int total_len:16;
-    int ident:16;
-    int flags:16;
-    u_char ttl:8;
-    u_char protocol:8;
-    int checksum:16;
+    u_char version_header;
+    u_char tos;
+    u_short total_len;
+    u_short ident;
+    u_short flags;
+    u_char ttl;
+    u_char protocol;
+    u_short checksum;
     u_char sourceIP[4];
     u_char destIP[4];
 };
+
 
 struct ip6_header {
     int version:4;
@@ -89,6 +95,8 @@ struct parse_struct {
     u_int seq;
     u_int ack;
     trans_type TRANS_type;
+
+    app_type APP_type;
 };
 
 
