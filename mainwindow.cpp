@@ -35,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     headerItem = new QTableWidgetItem("目的端口");
     ui->outputTable->setHorizontalHeaderItem(6, headerItem);
 
+    ui->rawData->setWordWrap(true);
+    ui->rawData_2->setWordWrap(true);
+
 
     get_packet_thread = new Thread_GetPacket;
 
@@ -222,6 +225,8 @@ void MainWindow::fillTable()
 
         ui->outputTable->scrollToBottom();
 
+        connect(ui->outputTable,SIGNAL(cellClicked(int, int)), this, SLOT(showRawData(int,int)));
+
         
         fill_offset++;
     }
@@ -239,6 +244,36 @@ QString MainWindow::getAddrStr(char * addr, int len, int base) {
     res.append(QString::number((uint8_t)addr[i], base));
     
     return res;
+}
+
+void MainWindow::showRawData(int row, int col) {
+    ui->rawData->clear();
+    ui->rawData_2->clear();
+
+    QString text1;
+    QString text2;
+    int len = buff[row].header->len;
+
+    for (int i = 0; i < len; i++) {
+        // text.append(QString::number((uint8_t)(buff[row].data[i]), 16));
+        text1.append(QString::asprintf("%02x", (uint8_t)(buff[row].data[i])));
+        text1.append(" ");
+
+        char byte = buff[row].data[i];
+        if (isgraph(byte)) {
+            text2.append(byte);
+        } else {
+            text2.append(".");
+        }
+        text2.append(" ");
+        
+    }
+
+    QListWidgetItem *item1 = new QListWidgetItem(text1);
+    ui->rawData->addItem(item1);
+
+    QListWidgetItem *item2 = new QListWidgetItem(text2);
+    ui->rawData_2->addItem(item2);
 }
 
 Thread_GetPacket::Thread_GetPacket() {

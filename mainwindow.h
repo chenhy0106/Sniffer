@@ -62,6 +62,7 @@ public slots:
     void on_endButton_clicked();
 
     void fillTable();
+    void showRawData(int row, int col);
 
 
 signals:
