@@ -36,6 +36,7 @@ typedef int filter_t;
 
 int getPackets(struct packet * buff, unsigned offset, struct dev * dev, int max_packet_count, int timeout, 
 				ProtoSel filter, int promiscuous);
+void deleteBuff(struct packet * buff, int pos);
 
 
 #ifdef __cplusplus

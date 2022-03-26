@@ -223,7 +223,7 @@ void MainWindow::fillTable()
         ui->outputTable->setItem(fill_offset, 5, sport);
         ui->outputTable->setItem(fill_offset, 6, dport);
 
-        ui->outputTable->scrollToBottom();
+        // ui->outputTable->scrollToBottom();
 
         connect(ui->outputTable,SIGNAL(cellClicked(int, int)), this, SLOT(showRawData(int,int)));
 
@@ -283,6 +283,7 @@ Thread_GetPacket::Thread_GetPacket() {
 }
 
 Thread_GetPacket::~Thread_GetPacket() {
+    deleteBuff(buff, buff_offset);
     delete buff;
 }
 

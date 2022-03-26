@@ -163,7 +163,9 @@ int getPackets(struct packet * buff,
 
 	int packet_count = 0;
     int res;
-    while(timeout && ((res = pcap_next_ex(adhandle, &(buff[packet_count+offset].header), &(buff[packet_count+offset].data))) >= 0)) {
+	struct pcap_pkthdr * header;
+	const u_char * data;
+    while(timeout && ((res = pcap_next_ex(adhandle, &header, &data)) >= 0)) {
         if (packet_count >= max_packet_count) {
 			break;
 		}
@@ -173,6 +175,12 @@ int getPackets(struct packet * buff,
 			continue;
 		}
 
+        buff[offset].header = (struct pcap_pkthdr *) malloc(sizeof(struct pcap_pkthdr));
+		buff[offset].data = (u_char *) malloc(header->len);
+		memcpy(buff[offset].header, header, sizeof(struct pcap_pkthdr));
+		memcpy(buff[offset].data, data, header->len);
+
+		offset++;
 		packet_count++;
 	}
 
@@ -182,3 +190,11 @@ int getPackets(struct packet * buff,
 
 	return packet_count;
 }
+
+void deleteBuff(struct packet * buff, int pos) {
+	for (int i = 0; i < pos; i++) {
+		free(buff[i].header);
+		free(buff[i].data);
+	}
+}
+
