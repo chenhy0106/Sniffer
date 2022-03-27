@@ -213,7 +213,10 @@ void MainWindow::fillTrackTable() {
             ui->tcpFlowOutput->setItem(track_fill_offset, 4, dst_addr);
             ui->tcpFlowOutput->setItem(track_fill_offset, 5, sport);
             ui->tcpFlowOutput->setItem(track_fill_offset, 6, dport);
+            
+            track_offset_to_buff_offset[track_fill_offset] = track_offset;
             track_fill_offset++;
+            connect(ui->tcpFlowOutput,SIGNAL(cellClicked(int, int)), this, SLOT(showRawData2(int,int)));
         }
 
         track_offset++;
@@ -382,6 +385,11 @@ QString MainWindow::getAddrStr(char * addr, int len, int base) {
     res.append(QString::number((uint8_t)addr[i], base));
     
     return res;
+}
+
+
+void MainWindow::showRawData2(int row, int col) {
+    showRawData(track_offset_to_buff_offset[row], col);
 }
 
 void MainWindow::showRawData(int row, int col) {

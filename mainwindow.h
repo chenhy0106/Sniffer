@@ -63,6 +63,7 @@ public slots:
 
     void fillTable();
     void fillTrackTable();
+    void showRawData2(int row, int col); 
     void showRawData(int row, int col); 
 
     void trackTCP();
@@ -102,6 +103,7 @@ private:
     unsigned char       track_ip2[4];
     unsigned short      track_port1;
     unsigned short      track_port2;
+    std::map<int, int>         track_offset_to_buff_offset;
 
 
     void initDevList();

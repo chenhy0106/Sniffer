@@ -195,18 +195,18 @@
      <rect>
       <x>10</x>
       <y>560</y>
-      <width>601</width>
-      <height>131</height>
+      <width>611</width>
+      <height>91</height>
      </rect>
     </property>
    </widget>
    <widget class="QListWidget" name="rawData_2">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>630</x>
       <y>560</y>
-      <width>621</width>
-      <height>131</height>
+      <width>611</width>
+      <height>91</height>
      </rect>
     </property>
    </widget>
@@ -214,9 +214,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>730</y>
+      <y>690</y>
       <width>1231</width>
-      <height>161</height>
+      <height>201</height>
      </rect>
     </property>
    </widget>
@@ -250,7 +250,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>700</y>
+      <y>660</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -263,7 +263,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>700</y>
+      <y>660</y>
       <width>93</width>
       <height>21</height>
      </rect>
