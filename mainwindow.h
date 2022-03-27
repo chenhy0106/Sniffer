@@ -62,11 +62,18 @@ public slots:
     void on_endButton_clicked();
 
     void fillTable();
-    void showRawData(int row, int col);
+    void fillTrackTable();
+    void showRawData(int row, int col); 
+
+    void trackTCP();
 
 
 signals:
     void SIG_controlGetPacket(bool control, struct dev * new_dev, ProtoSel protosel);
+    void SIG_fillTrackTable();
+
+private slots:
+    void on_stopTrack_clicked();
 
 private:
     Ui::MainWindow  *   ui;
@@ -86,6 +93,15 @@ private:
     unsigned            fill_offset = 0;
     struct packet   *   buff;
     std::atomic<unsigned>*   offset;
+
+    char                track_enable = 0;
+    int                 current_track = -1;
+    unsigned            track_fill_offset = 0;
+    unsigned            track_offset = 0;
+    unsigned char       track_ip1[4];
+    unsigned char       track_ip2[4];
+    unsigned short      track_port1;
+    unsigned short      track_port2;
 
 
     void initDevList();

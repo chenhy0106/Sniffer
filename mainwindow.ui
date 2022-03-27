@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1306</width>
-    <height>809</height>
+    <width>1251</width>
+    <height>896</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>30</y>
+      <y>10</y>
       <width>381</width>
       <height>31</height>
      </rect>
@@ -28,7 +28,7 @@
     <property name="geometry">
      <rect>
       <x>800</x>
-      <y>30</y>
+      <y>10</y>
       <width>141</width>
       <height>31</height>
      </rect>
@@ -93,7 +93,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>50</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -106,7 +106,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>80</y>
+      <y>50</y>
       <width>821</width>
       <height>16</height>
      </rect>
@@ -119,7 +119,7 @@
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>30</y>
+      <y>10</y>
       <width>71</width>
       <height>31</height>
      </rect>
@@ -132,7 +132,7 @@
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>30</y>
+      <y>10</y>
       <width>71</width>
       <height>31</height>
      </rect>
@@ -141,24 +141,11 @@
      <string>网卡选择：</string>
     </property>
    </widget>
-   <widget class="QLabel" name="errOut">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>690</y>
-      <width>1281</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>10</y>
       <width>93</width>
       <height>31</height>
      </rect>
@@ -171,7 +158,7 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>30</y>
+      <y>10</y>
       <width>93</width>
       <height>31</height>
      </rect>
@@ -184,9 +171,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>100</y>
-      <width>1281</width>
-      <height>231</height>
+      <y>70</y>
+      <width>1231</width>
+      <height>211</height>
      </rect>
     </property>
    </widget>
@@ -194,30 +181,95 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>340</y>
-      <width>1281</width>
-      <height>241</height>
+      <y>310</y>
+      <width>1231</width>
+      <height>221</height>
      </rect>
+    </property>
+    <property name="isWrapping" stdset="0">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QListWidget" name="rawData">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>600</y>
-      <width>621</width>
-      <height>191</height>
+      <y>560</y>
+      <width>601</width>
+      <height>131</height>
      </rect>
     </property>
    </widget>
    <widget class="QListWidget" name="rawData_2">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>600</y>
-      <width>651</width>
-      <height>191</height>
+      <x>620</x>
+      <y>560</y>
+      <width>621</width>
+      <height>131</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tcpFlowOutput">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>730</y>
+      <width>1231</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>协议解析:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>540</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>包数据:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>700</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>流跟踪：</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stopTrack">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>700</y>
+      <width>93</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>停止跟踪</string>
     </property>
    </widget>
   </widget>
