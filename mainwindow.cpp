@@ -567,6 +567,7 @@ Thread_GetPacket::Thread_GetPacket() {
     buff = new struct packet [MAX_BUFF_NO];
     state = STOP;
     buff_offset = 0;
+    ctr_run.lock();
 }
 
 Thread_GetPacket::~Thread_GetPacket() {
@@ -580,6 +581,7 @@ void Thread_GetPacket::run() {
         if (proto_sel == SEL_ICMP || proto_sel == SEL_DNS || proto_sel == SEL_SMTP) {
             packet_per_round = 1;
         }
+        ctr_run.lock();
         while (state.load(std::memory_order_acquire) == RUN && buff_offset <= buff_size) {
             int read_packet = getPackets(buff, buff_offset, target_dev, packet_per_round, 5, proto_sel, 1);
             if (read_packet == -1) {
@@ -589,6 +591,7 @@ void Thread_GetPacket::run() {
                 emit SIG_fillTable();
             }    
         }
+        ctr_run.unlock();
     }
 }
 
@@ -597,8 +600,10 @@ void Thread_GetPacket::controlGetPacket(bool control, struct dev * new_dev, Prot
         target_dev = new_dev;
         proto_sel = protosel;
         state.store(RUN, std::memory_order_release);
+        ctr_run.unlock();
     } else {
         state = STOP;
+        ctr_run.lock();
     }
 }
 

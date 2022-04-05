@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QThread>
+#include <QMutex>
 
 #include "sniffer_back.h"
 
@@ -23,8 +24,8 @@ enum state_set {RUN, STOP};
 class Thread_GetPacket : public QThread {
     Q_OBJECT
 private:
-    //线程退出的标识量
     volatile std::atomic<state_set> state;
+    QMutex                          ctr_run;
     struct packet *                 buff = NULL;
     std::atomic<unsigned>           buff_offset;
     unsigned                        buff_size = MAX_BUFF_NO;
